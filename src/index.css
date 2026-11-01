@@ -8,7 +8,6 @@
   --on-accent: #ffffff;
   --board: #ddd3ef;
   --cell: #f7f4fc;
-  --hole: #ffd88a;
   --radius: 18px;
 
   color-scheme: light dark;
@@ -34,7 +33,6 @@
     --on-accent: #1a1027;
     --board: #2a2338;
     --cell: #1b1724;
-    --hole: #8a6420;
   }
 }
 
@@ -178,12 +176,6 @@ h2 {
   fill: var(--cell);
 }
 
-/* Squares still empty once every pair is joined. */
-.cell--hole {
-  fill: var(--hole);
-  animation: glow 1.2s ease-in-out infinite alternate;
-}
-
 .fill {
   opacity: 0.22;
 }
@@ -201,12 +193,6 @@ h2 {
 
 .dot--joined {
   animation: pop-dot 0.35s ease-out;
-}
-
-@keyframes glow {
-  from {
-    opacity: 0.45;
-  }
 }
 
 @keyframes pop-dot {
@@ -267,13 +253,6 @@ h2 {
   opacity: 0.4;
 }
 
-.hint {
-  grid-column: 1 / -1;
-  text-align: center;
-  font-weight: 650;
-  animation: pop 0.25s ease-out;
-}
-
 /* Solved */
 
 .solved {
@@ -308,11 +287,9 @@ h2 {
   }
 }
 
-/* Lines still draw, without the glow and pops. */
+/* Lines still draw, without the pops. */
 @media (prefers-reduced-motion: reduce) {
   .solved,
-  .hint,
-  .cell--hole,
   .dot--joined {
     animation: none !important;
   }

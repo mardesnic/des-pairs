@@ -17,10 +17,8 @@ import {
 import { COLOURS } from './lib/colours';
 import { STRINGS, detectLang } from './lib/i18n';
 import {
-  allConnected,
   begin,
   dragTo,
-  emptyCells,
   generate,
   isConnected,
   type Difficulty,
@@ -119,12 +117,6 @@ export default function App() {
   };
 
   const drawn = !!game?.paths.some((p) => p.length);
-  // Every pair is joined but squares are left: show which ones, or the
-  // kid can't tell why the level isn't done.
-  const holes =
-    game && !game.solved && allConnected(game.level, game.paths)
-      ? emptyCells(game.level, game.paths)
-      : [];
 
   return (
     <main className={view === 'play' && game ? 'app app--play' : 'app'}>
@@ -175,7 +167,6 @@ export default function App() {
             <Board
               level={game.level}
               paths={game.paths}
-              holes={holes}
               onDown={down}
               onMove={move}
               onUp={up}
@@ -233,7 +224,6 @@ export default function App() {
                   <Icon name='clear' />
                 </button>
               </div>
-              {holes.length > 0 && <p className='hint'>{t.fillBoard}</p>}
             </div>
           )}
         </>

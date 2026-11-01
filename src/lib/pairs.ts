@@ -43,19 +43,9 @@ export const isConnected = (level: Level, paths: Paths, colour: number) => {
   );
 };
 
-export const allConnected = (level: Level, paths: Paths) =>
-  level.ends.every((_, k) => isConnected(level, paths, k));
-
-// Cells no line goes through.
-export function emptyCells(level: Level, paths: Paths) {
-  const used = new Set(paths.flat());
-  for (const e of level.ends) e.forEach((c) => used.add(c));
-  const cells = level.size * level.size;
-  return Array.from({ length: cells }, (_, i) => i).filter((i) => !used.has(i));
-}
-
+// Won once every pair is joined. Empty squares left over don't matter.
 export const isSolved = (level: Level, paths: Paths) =>
-  allConnected(level, paths) && emptyCells(level, paths).length === 0;
+  level.ends.every((_, k) => isConnected(level, paths, k));
 
 // Starts drawing at a cell. On a dot, that colour starts over from it. On
 // a line, the line is cut back to that cell and goes on from there.
@@ -204,9 +194,8 @@ function attempt(difficulty: Difficulty, rng: Rng): Level | undefined {
     at += length;
   }
 
-  // A colour whose dots touch could be joined in one step, leaving holes
-  // the kid can't explain. A line that never bends is too easy to see.
-  // A very long line is mostly a blob of zigzags, which is no fun to fill.
+  // A colour whose dots touch is joined in one step, and a line that never
+  // bends is too easy to see. A very long line is mostly a blob of zigzags.
   for (const line of solution) {
     if (line.length > size * 2) return undefined;
     if (adjacent(size, line[0], line.at(-1)!)) return undefined;
@@ -232,7 +221,7 @@ const sameDots = (a: Level, b: Level) =>
 
 // Makes a random level that can always be solved, since it is cut from a
 // path that fills the whole board. The kid's answer doesn't have to match
-// it: any lines that join every pair and fill the board win. A level with
+// it, or fill the board: any lines that join every pair win. A level with
 // the same dots as `previous` is thrown away, so the next level never
 // looks like the one just played.
 export function generate(

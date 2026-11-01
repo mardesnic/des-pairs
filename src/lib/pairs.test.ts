@@ -5,7 +5,6 @@ import {
   begin,
   DIFFICULTIES,
   dragTo,
-  emptyCells,
   extend,
   generate,
   isConnected,
@@ -125,18 +124,21 @@ describe('drawing', () => {
 });
 
 describe('winning', () => {
-  it('needs every pair joined and every cell filled', () => {
-    expect(isSolved(sample, sample.solution)).toBe(true);
-  });
-
-  it('is not won with empty cells left', () => {
+  it('is won once every pair is joined, with empty cells left', () => {
     const paths = [
       [0, 1, 2, 3],
       [4, 5, 6, 7, 11, 15],
     ];
-    expect(isConnected(sample, paths, 1)).toBe(true);
-    expect(isSolved(sample, paths)).toBe(false);
-    expect(emptyCells(sample, paths)).toEqual([8, 9, 10, 12, 13, 14]);
+    expect(isSolved(sample, paths)).toBe(true);
+  });
+
+  it('is not won while a pair is apart', () => {
+    expect(
+      isSolved(sample, [
+        [0, 1, 2, 3],
+        [4, 5],
+      ])
+    ).toBe(false);
   });
 
   it('counts a line drawn from either dot', () => {

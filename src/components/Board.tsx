@@ -8,14 +8,12 @@ import { isConnected, type Level, type Paths } from '../lib/pairs';
 export function Board({
   level,
   paths,
-  holes,
   onDown,
   onMove,
   onUp,
 }: {
   level: Level;
   paths: Paths;
-  holes: number[]; // empty cells to point out
   onDown: (cell: number) => void;
   onMove: (cell: number) => void;
   onUp: () => void;
@@ -34,7 +32,6 @@ export function Board({
 
   const x = (cell: number) => (cell % size) + 0.5;
   const y = (cell: number) => Math.floor(cell / size) + 0.5;
-  const holeSet = new Set(holes);
 
   return (
     <svg
@@ -61,7 +58,7 @@ export function Board({
       {Array.from({ length: size * size }, (_, cell) => (
         <rect
           key={cell}
-          className={holeSet.has(cell) ? 'cell cell--hole' : 'cell'}
+          className='cell'
           x={x(cell) - 0.46}
           y={y(cell) - 0.46}
           width={0.92}
