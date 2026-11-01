@@ -12,6 +12,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       pwaAssets: { config: true },
       manifest: {
+        // A fixed id of its own, so a phone never mixes it up with an earlier
+        // install or with the other games on this site.
+        id: 'des-pairs',
         name: 'Pairs',
         short_name: 'Pairs',
         description:
