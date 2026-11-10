@@ -7,9 +7,9 @@ export type Game = {
   solved: boolean;
 };
 
-export type Settings = { language: Language };
+export type Settings = { language: Language; sound: boolean };
 
-export const initialSettings: Settings = { language: 'auto' };
+export const initialSettings: Settings = { language: 'auto', sound: true };
 
 export type Stats = { [D in Difficulty]: { solved: number } };
 
