@@ -43,6 +43,7 @@ const en = {
   off: 'Off',
   statistics: 'Statistics',
   solvedColumn: 'Solved',
+  allGames: 'All games',
   source: 'Source',
 };
 
@@ -84,6 +85,7 @@ const hr: Strings = {
   off: 'Isključeno',
   statistics: 'Statistika',
   solvedColumn: 'Riješeno',
+  allGames: 'Sve igre',
   source: 'Izvorni kod',
 };
 
