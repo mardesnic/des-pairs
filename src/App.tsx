@@ -5,13 +5,11 @@ import { Confetti } from './components/Confetti';
 import { Icon } from './components/Icon';
 import { NewGame, SettingsView } from './components/Menu';
 import {
-  initialSettings,
   initialStats,
   newGame,
   recordWin,
   withPaths,
   type Game,
-  type Settings,
   type Stats,
 } from './lib/game';
 import { COLOURS } from './lib/colours';
@@ -28,7 +26,7 @@ import {
 } from './lib/pairs';
 import { popMenu, pushMenu, useBackButton } from './lib/use-back-button';
 import { useCheer } from './lib/use-cheer';
-import { useLanguage } from './lib/use-language';
+import { useLanguage, useSound } from './lib/use-shared-settings';
 import { useStoredState } from './lib/use-stored-state';
 import { useWakeLock } from './lib/use-wake-lock';
 
@@ -39,10 +37,6 @@ export default function App() {
   // this storage.
   const [store, setStore] = useStoredState<{ game?: Game }>('pairs', {});
   const { game } = store;
-  const [settings, setSettings] = useStoredState<Settings>(
-    'pairs-settings',
-    initialSettings
-  );
   const [stats, setStats] = useStoredState<Stats>('pairs-stats', initialStats);
   const [view, setViewState] = useState<View>(game ? 'play' : 'new');
   // Menus open over the game, so the phone's Back button closes them.
@@ -63,7 +57,8 @@ export default function App() {
     undefined
   );
   useWakeLock();
-  const cheer = useCheer(settings.sound);
+  const [sound, setSound] = useSound();
+  const cheer = useCheer(sound);
 
   const [language, setLanguage] = useLanguage();
   const lang = language === 'auto' ? detectLang() : language;
@@ -173,8 +168,8 @@ export default function App() {
         <SettingsView
           language={language}
           setLanguage={setLanguage}
-          settings={settings}
-          setSettings={setSettings}
+          sound={sound}
+          setSound={setSound}
           stats={stats}
           t={t}
         />
