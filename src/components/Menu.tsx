@@ -56,11 +56,15 @@ function Segmented<T>({
 
 export function SettingsView({
   settings,
+  language,
+  setLanguage,
   setSettings,
   stats,
   t,
 }: {
   settings: Settings;
+  language: Language;
+  setLanguage: (l: Language) => void;
   setSettings: (s: Settings) => void;
   stats: Stats;
   t: Strings;
@@ -76,9 +80,9 @@ export function SettingsView({
           <span>{t.language}</span>
           <Segmented
             options={languages}
-            value={settings.language}
+            value={language}
             label={(l) => (l === 'auto' ? t.automatic : LANG_NAMES[l])}
-            onChange={(language) => setSettings({ ...settings, language })}
+            onChange={setLanguage}
           />
         </div>
 

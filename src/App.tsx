@@ -28,7 +28,7 @@ import {
 } from './lib/pairs';
 import { popMenu, pushMenu, useBackButton } from './lib/use-back-button';
 import { useCheer } from './lib/use-cheer';
-import { useSettings } from './lib/use-settings';
+import { useLanguage } from './lib/use-language';
 import { useStoredState } from './lib/use-stored-state';
 import { useWakeLock } from './lib/use-wake-lock';
 
@@ -39,7 +39,7 @@ export default function App() {
   // this storage.
   const [store, setStore] = useStoredState<{ game?: Game }>('pairs', {});
   const { game } = store;
-  const [settings, setSettings] = useSettings<Settings>(
+  const [settings, setSettings] = useStoredState<Settings>(
     'pairs-settings',
     initialSettings
   );
@@ -65,7 +65,8 @@ export default function App() {
   useWakeLock();
   const cheer = useCheer(settings.sound);
 
-  const lang = settings.language === 'auto' ? detectLang() : settings.language;
+  const [language, setLanguage] = useLanguage();
+  const lang = language === 'auto' ? detectLang() : language;
   const t = STRINGS[lang];
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -170,6 +171,8 @@ export default function App() {
       {view === 'new' && <NewGame onStart={start} t={t} />}
       {view === 'settings' && (
         <SettingsView
+          language={language}
+          setLanguage={setLanguage}
           settings={settings}
           setSettings={setSettings}
           stats={stats}
