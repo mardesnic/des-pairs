@@ -72,7 +72,7 @@ const hr: Strings = {
   ],
   joined: 'spojena',
   notJoined: 'nije spojena',
-  undo: 'Vrati',
+  undo: 'Poništi',
   clear: 'Ispočetka',
   fillAll: 'Sad popuni sva prazna polja!',
   solved: 'Bravo!',
