@@ -43,9 +43,20 @@ export const isConnected = (level: Level, paths: Paths, colour: number) => {
   );
 };
 
-// Won once every pair is joined. Empty squares left over don't matter.
-export const isSolved = (level: Level, paths: Paths) =>
+export const allJoined = (level: Level, paths: Paths) =>
   level.ends.every((_, k) => isConnected(level, paths, k));
+
+// The squares no line goes through yet.
+export const emptyCells = (level: Level, paths: Paths) => {
+  const used = new Set(paths.flat());
+  return Array.from({ length: level.size * level.size }, (_, c) => c).filter(
+    (c) => !used.has(c)
+  );
+};
+
+// Won once every pair is joined and the lines fill every square.
+export const isSolved = (level: Level, paths: Paths) =>
+  allJoined(level, paths) && emptyCells(level, paths).length === 0;
 
 // Starts drawing at a cell. On a dot, that colour starts over from it. On
 // a line, the line is cut back to that cell and goes on from there.
@@ -221,7 +232,7 @@ const sameDots = (a: Level, b: Level) =>
 
 // Makes a random level that can always be solved, since it is cut from a
 // path that fills the whole board. The kid's answer doesn't have to match
-// it, or fill the board: any lines that join every pair win. A level with
+// it: any lines that join every pair and fill the board win. A level with
 // the same dots as `previous` is thrown away, so the next level never
 // looks like the one just played.
 export function generate(

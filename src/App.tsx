@@ -19,6 +19,8 @@ import { STRINGS, detectLang } from './lib/i18n';
 import {
   begin,
   dragTo,
+  allJoined,
+  emptyCells,
   generate,
   isConnected,
   type Difficulty,
@@ -180,6 +182,12 @@ export default function App() {
             <Board
               level={game.level}
               paths={game.paths}
+              // Every pair is joined but squares are still empty: show them.
+              empty={
+                !game.solved && allJoined(game.level, game.paths)
+                  ? emptyCells(game.level, game.paths)
+                  : []
+              }
               onDown={down}
               onMove={move}
               onUp={up}
@@ -219,6 +227,9 @@ export default function App() {
                   );
                 })}
               </ul>
+              {allJoined(game.level, game.paths) && (
+                <p className='fill-hint'>{t.fillAll}</p>
+              )}
               <div className='tools'>
                 <button
                   className='tool'

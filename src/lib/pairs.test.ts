@@ -9,6 +9,8 @@ import {
   generate,
   isConnected,
   isSolved,
+  allJoined,
+  emptyCells,
   type Level,
 } from './pairs';
 
@@ -124,12 +126,19 @@ describe('drawing', () => {
 });
 
 describe('winning', () => {
-  it('is won once every pair is joined, with empty cells left', () => {
+  it('is won once every pair is joined and every square is filled', () => {
+    expect(isSolved(sample, sample.solution)).toBe(true);
+    expect(emptyCells(sample, sample.solution)).toEqual([]);
+  });
+
+  it('is not won while squares are empty, even with every pair joined', () => {
     const paths = [
       [0, 1, 2, 3],
       [4, 5, 6, 7, 11, 15],
     ];
-    expect(isSolved(sample, paths)).toBe(true);
+    expect(allJoined(sample, paths)).toBe(true);
+    expect(emptyCells(sample, paths)).toEqual([8, 9, 10, 12, 13, 14]);
+    expect(isSolved(sample, paths)).toBe(false);
   });
 
   it('is not won while a pair is apart', () => {

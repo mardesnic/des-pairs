@@ -176,6 +176,17 @@ h2 {
   fill: var(--cell);
 }
 
+.cell--empty {
+  animation: blink-empty 1.2s ease-in-out infinite;
+}
+
+@keyframes blink-empty {
+  50% {
+    fill: var(--accent);
+    fill-opacity: 0.35;
+  }
+}
+
 .fill {
   opacity: 0.22;
 }
@@ -208,6 +219,15 @@ h2 {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px 14px;
+}
+
+/* Shown once every pair is joined but squares are still empty. */
+.fill-hint {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin: 0;
+  font-weight: 600;
+  color: var(--accent);
 }
 
 /* One ring per colour, filled in once that pair is joined. */
@@ -290,8 +310,15 @@ h2 {
 /* Lines still draw, without the pops. */
 @media (prefers-reduced-motion: reduce) {
   .solved,
-  .dot--joined {
+  .dot--joined,
+  .cell--empty {
     animation: none !important;
+  }
+
+  /* Still marked, just without the blink. */
+  .cell--empty {
+    fill: var(--accent);
+    fill-opacity: 0.25;
   }
 }
 

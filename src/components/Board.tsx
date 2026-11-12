@@ -8,12 +8,15 @@ import { isConnected, type Level, type Paths } from '../lib/pairs';
 export function Board({
   level,
   paths,
+  empty,
   onDown,
   onMove,
   onUp,
 }: {
   level: Level;
   paths: Paths;
+  // Squares to point out, gently blinking.
+  empty: number[];
   onDown: (cell: number) => void;
   onMove: (cell: number) => void;
   onUp: () => void;
@@ -58,7 +61,7 @@ export function Board({
       {Array.from({ length: size * size }, (_, cell) => (
         <rect
           key={cell}
-          className='cell'
+          className={empty.includes(cell) ? 'cell cell--empty' : 'cell'}
           x={x(cell) - 0.46}
           y={y(cell) - 0.46}
           width={0.92}
